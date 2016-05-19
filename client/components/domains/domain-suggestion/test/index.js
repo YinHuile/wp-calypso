@@ -1,10 +1,10 @@
 /**
  * External Dependencies
  */
-import { expect } from 'chai';
 import React from 'react';
+import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import noop from 'lodash/noop';
+import identity from 'lodash/identity';
 
 /**
  * Internal Dependencies
@@ -12,19 +12,20 @@ import noop from 'lodash/noop';
 import useFakeDom from 'test/helpers/use-fake-dom';
 import useMockery from 'test/helpers/use-mockery';
 import useI18n from 'test/helpers/use-i18n';
+import EmptyComponent from 'test/helpers/react/empty-component';
 
 describe( 'Domain Suggestion', function() {
 	let DomainSuggestion;
 
 	useFakeDom();
 	useMockery( ( mockery ) => {
-		mockery.registerMock( 'components/plans/premium-popover', noop );
+		mockery.registerMock( 'components/plans/premium-popover', EmptyComponent );
 	} );
 	useI18n();
 
 	before( () => {
 		DomainSuggestion = require( 'components/domains/domain-suggestion' );
-		DomainSuggestion.prototype.translate = ( x ) => x;
+		DomainSuggestion.prototype.translate = identity;
 	} );
 
 	describe( 'has attributes', () => {
@@ -34,23 +35,6 @@ describe( 'Domain Suggestion', function() {
 			const domainSuggestionButton = domainSuggestion.find( `.domain-suggestion__select-button` );
 			expect( domainSuggestionButton.length ).to.equal( 1 );
 			expect( domainSuggestionButton.props()[ 'data-e2e-domain' ] ).to.equal( 'example.com' );
-		} );
-	} );
-
-	describe( 'added domain', function() {
-		it( 'should show a checkbox when in cart', function() {
-			const domainSuggestion = shallow( <DomainSuggestion isAdded={ true } /> );
-			const domainSuggestionButton = domainSuggestion.find( '.domain-suggestion__select-button' );
-			expect( domainSuggestionButton.children().props().icon ).to.equal( 'checkmark' );
-		} );
-
-		it( 'should show the button label when not in cart', function() {
-			const buttonLabel = 'Select';
-			const domainSuggestion = shallow(
-					<DomainSuggestion isAdded={ false } buttonLabel={ buttonLabel } />
-				);
-			const domainSuggestionButton = domainSuggestion.find( '.domain-suggestion__select-button' );
-			expect( domainSuggestionButton.text() ).to.equal( buttonLabel );
 		} );
 	} );
 } );
