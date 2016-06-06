@@ -54,7 +54,7 @@ export function items( state = [], action ) {
 			const totalRecommendationsCount = state.length + newRecommendations.length;
 
 			forEach( newRecommendations, ( recommendation ) => {
-				// We want to insert the new recommendation immediately after its parent, if there is one
+				// Find the parent recommendation, if there is one.
 				let parentPosition = findIndex( state, ( item ) => {
 					if ( ! has( item, 'recommended_site_ID' ) ) {
 						return false;
@@ -62,11 +62,18 @@ export function items( state = [], action ) {
 					return item.recommended_site_ID === recommendation.origin_site_ID && item.recommended_post_ID === recommendation.origin_post_ID;
 				} );
 
-				if ( parentPosition < 0 ) {
-					parentPosition = totalRecommendationsCount - 1;
+				let childPosition;
+				if ( parentPosition >= 0 ) {
+					// Insert the new recommendation immediately after the parent, if we found one.
+					childPosition = parentPosition + 1;
+				} else {
+					// No parent recommendation? Insert it at the end.
+					childPosition = totalRecommendationsCount - 1;
 				}
 
-				updatedRecommendations = insertItemAtArrayPosition( updatedRecommendations, recommendation, parentPosition );
+				debug( 'Inserting recommendation ID ' + recommendation.ID + ' at position ' + childPosition );
+
+				updatedRecommendations = insertItemAtArrayPosition( updatedRecommendations, recommendation, childPosition );
 			} );
 			return updatedRecommendations;
 
