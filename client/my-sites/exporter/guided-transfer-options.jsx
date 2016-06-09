@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 /**
  * Internal dependencies
@@ -11,6 +11,10 @@ import Button from 'components/forms/form-button';
 
 export default React.createClass( {
 	displayName: 'GuidedTransferOptions',
+
+	propTypes: {
+		purchaseGuidedTransfer: PropTypes.func.isRequired
+	},
 
 	render: function() {
 		return (
@@ -23,6 +27,7 @@ export default React.createClass( {
 					</div>
 					<div className="exporter__guided-transfer-options-header-button-container">
 						<Button
+							onClick={ this.props.purchaseGuidedTransfer }
 							isPrimary={ true }>
 							{ this.translate( 'Purchase a Guided Transfer' ) }
 						</Button>

@@ -22,6 +22,7 @@ export default React.createClass( {
 		startExport: PropTypes.func.isRequired,
 		setPostType: PropTypes.func.isRequired,
 		advancedSettingsFetch: PropTypes.func.isRequired,
+		purchaseGuidedTransfer: PropTypes.func.isRequired,
 		showGuidedTransferOptions: PropTypes.bool,
 		shouldShowProgress: PropTypes.bool.isRequired,
 		postType: PropTypes.string,
@@ -117,7 +118,7 @@ export default React.createClass( {
 						onClickExport={ exportSelectedItems }
 					/>
 				</FoldableCard>
-				{ showGuidedTransferOptions && <GuidedTransferOptions /> }
+				{ showGuidedTransferOptions && <GuidedTransferOptions purchaseGuidedTransfer={ this.props.purchaseGuidedTransfer }/> }
 				{ isExporting && <Interval onTick={ fetchStatus } period={ EVERY_SECOND } /> }
 			</div>
 		);

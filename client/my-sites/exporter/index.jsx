@@ -3,12 +3,14 @@
  */
 import { connect } from 'react-redux';
 import flowRight from 'lodash/flowRight';
+import page from 'page';
 
 /**
  * Internal dependencies
  */
 import config from 'config';
 import Exporter from './exporter';
+import { getSiteSlug } from 'state/sites/selectors';
 import {
 	shouldShowProgress,
 	getSelectedPostType,
@@ -35,6 +37,10 @@ function mapStateToProps( state ) {
 		didComplete: getExportingState( state, siteId ) === States.COMPLETE,
 		didFail: getExportingState( state, siteId ) === States.FAILED,
 		showGuidedTransferOptions: config.isEnabled( 'manage/export/guided-transfer' ),
+		purchaseGuidedTransfer: () => {
+			const siteSlug = getSiteSlug( state, siteId );
+			page( `/settings/export/${siteSlug}/guided` );
+		},
 	};
 }
 
