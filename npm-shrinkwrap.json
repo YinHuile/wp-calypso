@@ -1684,7 +1684,7 @@
       "version": "0.0.0"
     },
     "i18n-calypso": {
-      "version": "1.0.4",
+      "version": "1.0.8",
       "dependencies": {
         "async": {
           "version": "1.5.2"
